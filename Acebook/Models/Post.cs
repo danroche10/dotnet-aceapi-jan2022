@@ -11,6 +11,9 @@ namespace Acebook.Models
         public string Body { get; set; }
 
         [Required]
+        public bool Cool { get; set; }
+
+        [Required]
         public string UserId { get; set; }
 
         public ApplicationUser User { get; set; }
@@ -21,6 +24,7 @@ namespace Acebook.Models
             {
                 Id = Id,
                 Body = Body,
+                Cool = Cool,
                 User = User?.ToDto(),
             };
         }

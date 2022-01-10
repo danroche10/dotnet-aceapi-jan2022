@@ -35,13 +35,14 @@ namespace Acebook.IntegrationTests.PostsRequests
             await RequestHelpers.Login(client, user, "Password123$");
 
             var response = await client.PostAsync("/api/posts", new StringContent(
-                JsonSerializer.Serialize(new Post { Body = "Hello World" }),
+                JsonSerializer.Serialize(new Post { Body = "Hello World", Cool = true }),
                 Encoding.UTF8,
                 "application/json"));
 
             response.EnsureSuccessStatusCode();
             Assert.Equal(1, this.dbContext.Posts.Count());
             Assert.Equal("Hello World", this.dbContext.Posts.OrderBy(p => p.Id).First().Body);
+            Assert.True(this.dbContext.Posts.OrderBy(p => p.Id).First().Cool);
         }
     }
 }

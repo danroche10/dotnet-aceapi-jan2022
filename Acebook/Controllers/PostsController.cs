@@ -50,16 +50,36 @@ namespace Acebook.Controllers
             return post.ToDto();
         }
 
+        // GET: /api/Posts/Cool
+        [HttpGet("Cool")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetCoolPosts()
+        {
+            return await this.context.Posts
+                        .Include(x => x.User)
+                        .Where(x => x.Cool == true)
+                        .Select(p => p.ToDto()).ToListAsync();
+        }
+
+        // GET: /api/Posts/Uncool
+        [HttpGet("Uncool")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetUnCoolPosts()
+        {
+            return await this.context.Posts
+                        .Include(x => x.User)
+                        .Where(x => x.Cool == false)
+                        .Select(p => p.ToDto()).ToListAsync();
+        }
+
         // POST: /api/Posts
         [HttpPost]
         public async Task<ActionResult<PostDto>> PostPost(PostDto postDto)
         {
             ApplicationUser user = await this.userManager.GetUserAsync(User);
-
             var post = new Post
             {
                 UserId = user.Id,
                 Body = postDto.Body,
+                Cool = postDto.Cool,
             };
 
             this.context.Posts.Add(post);

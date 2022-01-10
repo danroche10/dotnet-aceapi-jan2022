@@ -14,5 +14,9 @@ namespace Acebook.Models
 
         [JsonPropertyName("user")]
         public ApplicationUserDto User { get; set; }
+
+        [JsonPropertyName("cool")]
+        [Required]
+        public bool Cool { get; set; }
     }
 }
